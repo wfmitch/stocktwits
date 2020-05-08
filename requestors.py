@@ -4,10 +4,10 @@ import os
 import logging as log
 # Try to import modules needed for Google App Engine just in case
 try:
-    from google.appengine.api import urlfetch
-    from google.appengine.runtime import DeadlineExceededError
+    # from google.appengine.api import urlfetch
+    # from google.appengine.runtime import DeadlineExceededError
     import urllib
-    import json
+    import json 
 except:
     pass
 
@@ -28,7 +28,7 @@ __author__ = 'Jason Haury'
 class Requests():
     """ Uses `requests` library to GET and POST to Stocktwits, and also to convert resonses to JSON
     """
-    def get_json(url, params=None):
+    def get_json(self,url, params=None):
         """ Uses tries to GET a few times before giving up if a timeout.  returns JSON
         """
         resp = None
@@ -46,7 +46,7 @@ class Requests():
         else:
             return json.loads(resp.content)
 
-    def post_json(url, params=None, deadline=30):
+    def post_json(self,url, params=None, deadline=30):
         """ Tries to post a couple times in a loop before giving up if a timeout.
         """
         resp = None
@@ -66,7 +66,7 @@ class Requests():
 class GAE():
     """ A wrapper around Google App Engine's `urlfetch` to make it act like `requests` package
     """
-    def get_json(url, params=None):
+    def get_json(self,url, params=None):
         """ Uses tries to GET a few times before giving up if a timeout.  returns JSON
         """
         params = ('?' + urllib.urlencode(params)) if params else ''  # URL query string parameters (Access Token, etc)
@@ -85,7 +85,7 @@ class GAE():
         else:
             return json.loads(resp.content)
 
-    def post_json(url, params=None, deadline=30):
+    def post_json(self,url, params=None, deadline=30):
         """ Tries to post a couple times in a loop before giving up if a timeout.
         """
         params = '?' + urllib.urlencode(params) if params else ''  # URL query string parameters (Access Token)
