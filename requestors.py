@@ -4,8 +4,8 @@ import os
 import logging as log
 # Try to import modules needed for Google App Engine just in case
 try:
-    # from google.appengine.api import urlfetch
-    # from google.appengine.runtime import DeadlineExceededError
+    #from google.appengine.api import urlfetch
+    #from google.appengine.runtime import DeadlineExceededError
     import urllib
     import json 
 except:
@@ -63,40 +63,40 @@ class Requests():
 
 
 
-class GAE():
-    """ A wrapper around Google App Engine's `urlfetch` to make it act like `requests` package
-    """
-    def get_json(self,url, params=None):
-        """ Uses tries to GET a few times before giving up if a timeout.  returns JSON
-        """
-        params = ('?' + urllib.urlencode(params)) if params else ''  # URL query string parameters (Access Token, etc)
-        resp = None
-        for i in range(4):
-            try:
-                resp = urlfetch.fetch(url+params, method='GET')
-            except:
-                trimmed_params = {k: v for k, v in params.iteritems() if k not in ST_BASE_PARAMS.keys()}
-                log.error('GET Timeout to {} w/ {}'.format(url[len(ST_BASE_URL):], trimmed_params))
-            if resp is not None:
-                break
-        if resp is None:
-            log.error('GET loop Timeout')
-            return None
-        else:
-            return json.loads(resp.content)
+# class GAE():
+#     """ A wrapper around Google App Engine's `urlfetch` to make it act like `requests` package
+#     """
+#     def get_json(self,url, params=None):
+#         """ Uses tries to GET a few times before giving up if a timeout.  returns JSON
+#         """
+#         params = ('?' + urllib.urlencode(params)) if params else ''  # URL query string parameters (Access Token, etc)
+#         resp = None
+#         for i in range(4):
+#             try:
+#                 resp = urlfetch.fetch(url+params, method='GET')
+#             except:
+#                 trimmed_params = {k: v for k, v in params.iteritems() if k not in ST_BASE_PARAMS.keys()}
+#                 log.error('GET Timeout to {} w/ {}'.format(url[len(ST_BASE_URL):], trimmed_params))
+#             if resp is not None:
+#                 break
+#         if resp is None:
+#             log.error('GET loop Timeout')
+#             return None
+#         else:
+#             return json.loads(resp.content)
 
-    def post_json(self,url, params=None, deadline=30):
-        """ Tries to post a couple times in a loop before giving up if a timeout.
-        """
-        params = '?' + urllib.urlencode(params) if params else ''  # URL query string parameters (Access Token)
-        resp = None
-        for i in range(4):
-            try:
-                resp = urlfetch.fetch(url+params, method='POST', deadline=deadline)
-            except DeadlineExceededError:
-                trimmed_params = {k: v for k, v in params.iteritems() if k not in ST_BASE_PARAMS.keys()}
-                log.error('POST Timeout to {} w/ {}'.format(url[len(ST_BASE_URL):], trimmed_params))
-            if resp is not None:
-                break
-        # TODO wrap in appropriate try/except
-        return json.loads(resp.content)
+#     def post_json(self,url, params=None, deadline=30):
+#         """ Tries to post a couple times in a loop before giving up if a timeout.
+#         """
+#         params = '?' + urllib.urlencode(params) if params else ''  # URL query string parameters (Access Token)
+#         resp = None
+#         for i in range(4):
+#             try:
+#                 resp = urlfetch.fetch(url+params, method='POST', deadline=deadline)
+#             except DeadlineExceededError:
+#                 trimmed_params = {k: v for k, v in params.iteritems() if k not in ST_BASE_PARAMS.keys()}
+#                 log.error('POST Timeout to {} w/ {}'.format(url[len(ST_BASE_URL):], trimmed_params))
+#             if resp is not None:
+#                 break
+#         # TODO wrap in appropriate try/except
+#         return json.loads(resp.content)
