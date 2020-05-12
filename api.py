@@ -1,4 +1,6 @@
 import logging as log
+import sys
+sys.path.append('/users/wfmit/onedrive/documents/github/stockwits')
 from requestors import ST_BASE_PARAMS, ST_BASE_URL
 
 
